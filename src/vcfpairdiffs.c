@@ -25,7 +25,7 @@ void vcfpairdiffs(htsFile *fp, bcf_hdr_t *hdr,
           for (j=0; j<=i; j++) {
             jptr = gt_arr + j*max_ploidy;
             for (jj=0; jj<max_ploidy; jj++){
-              // comparing to this is special case
+              // don't compare to self
               if (i == j && ii >= jj) continue;
 
               jsmpl = jptr[jj];
@@ -47,9 +47,9 @@ void vcfpairdiffs(htsFile *fp, bcf_hdr_t *hdr,
     }
   // symmetrize
   for (i=0; i<nsmpl; i++) {
-    for (j=0; j<i; j++) {
-      ndiff[j*nsmpl+i] = ndiff[i*nsmpl+j];
-      ntot[j*nsmpl+i] = ntot[i*nsmpl+j];
+    for (j=0; j<=i; j++) {
+      ndiff[j*nsmpl+i] += ndiff[i*nsmpl+j];
+      ntot[j*nsmpl+i] += ntot[i*nsmpl+j];
     }
   }
   free(gt_arr);

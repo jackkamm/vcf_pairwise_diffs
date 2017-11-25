@@ -10,7 +10,6 @@ cdef extern from "vcfpairdiffs.h":
 def pairwise_diffs(vcf_name):
     vcf_name = vcf_name.encode()
     cdef const char* fname = vcf_name
-
     cdef htsFile *fp = hts_open(fname, "r")
     cdef bcf_hdr_t *hdr = bcf_hdr_read(fp)
 
